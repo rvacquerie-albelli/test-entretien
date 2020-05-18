@@ -18,18 +18,33 @@ namespace TestEntretien
             Console.WriteLine("GroupAnagram start");
             string[] input = { "reza","eat", "tea", "tan", "ate", "nat", "bat", "bta", "azer" };
 
-           
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            foreach(string s in input)
+            {
+                var word = s.ToCharArray();                        
+                Array.Sort(word);
+                
+                string sortedWord = new string (word);
+                            
+                if(!result.ContainsKey(sortedWord))
+                {
+                    result.Add(sortedWord, new List<string>());
+                }
+                
+                result[sortedWord].Add(s);
+            }
+
+            foreach(var entry in result)
+            {
+                Console.WriteLine(string.Join(',', entry.Value.ToArray()));
+            }
         }
 
         public static void SortInt()
         {
             int[] numbers = Enumerable.Range(0, 10).OrderBy(xp => Guid.NewGuid()).ToArray();
-           
-           
-            
 
-
-
+            numbers = numbers.OrderBy(e => e).ToArray();
             Console.WriteLine(string.Join(",", numbers));
            
         }
@@ -49,6 +64,7 @@ namespace TestEntretien
                 .Select(i => (i.ToString(),  $"mail_{i}@citeo.com" ));
 
             List<(string Id, string Email, string Name)> result = new List<(string Id, string Email, string Name)>();
+
             Stopwatch watch = Stopwatch.StartNew();
 
             // 

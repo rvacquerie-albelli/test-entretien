@@ -18,6 +18,18 @@ namespace TestEntretien
             {
                 {"a",10 },{"c",22},{"b",7896}
             };
+            
+            var res = a.Concat(b).GroupBy(e => e.Key).Select(e => new 
+            { 
+                Key = e.Key,
+                Sum = e.Sum(a => a.Value) 
+            })
+            .ToDictionary(e => e.Key, y => y.Sum);
+            
+            foreach(var entry in res)
+            {
+                Console.WriteLine(string.Join(',', entry.Value));
+            }
         }
 
         /// <summary>
@@ -28,9 +40,15 @@ namespace TestEntretien
             List<List<int>> datas = new List<List<int>>()
             {
                 new List<int>() { 1, 10, 20, 30, 45, 75 },
-                new List<int>() { 45, 2, 1, 4, 2, 2, 100 },
+                new List<int>() { 45, 2, 1, 4, 2, 2 },
+                // new List<int>() { 45, 2, 1, 4, 2, 2, 100 }, how to handle different size ...
                 new List<int>() { 45, 2, 1, 4, 2, 2 }
             };
+            
+            var res = datas.SelectMany(x => x)  
+                   .Select((v, i) => new { Value = v, Index = i % 6 })
+                   .GroupBy(x => x.Index).Select(y => y.Sum(z => z.Value));
+
         }
 
         /// <summary>
